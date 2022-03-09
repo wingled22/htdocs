@@ -22,7 +22,7 @@
 
     if($_POST){
         // UPDATE `schedule` SET `id`='[value-1]',`date`='[value-2]',`description`='[value-3]' WHERE 1
-        $sql = "UPDATE schedule set date = '".$_POST['date']."', description = '".htmlspecialchars($_POST['description'])."' id=".$_GET['id'];
+        $sql = "UPDATE schedule set date = '".$_POST['date']."', description = '".htmlspecialchars($_POST['description'])."' where id=".$_GET['id'];
         $res  = $conn->query($sql);
 
         if($res)
