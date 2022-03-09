@@ -1,0 +1,68 @@
+<link rel="stylesheet" href="css/custom.css">
+<button href="" class="button">click</button>
+<div class="container">
+
+</div>
+
+<template id="template">
+    <div class="row">
+        <div class="title">Title</div>
+        <div class="desc">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, nisi perspiciatis aliquid reiciendis ea at illum doloribus ratione commodi eos ducimus iste eveniet, nihil error accusamus debitis odio quibusdam exercitationem?
+        </div>
+    </div>
+</template>
+
+<script src="js/jquery.min.js"></script>
+<script>
+    var json = [
+        {
+            title : "Title 1",
+            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, nisi perspiciatis aliquid reiciendis ea at illum doloribus ratione commodi eos ducimus iste eveniet, nihil error accusamus debitis odio quibusdam exercitationem?"
+        },
+        {
+            title : "Title 2",
+            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, nisi perspiciatis aliquid reiciendis ea at illum doloribus ratione commodi eos ducimus iste eveniet, nihil error accusamus debitis odio quibusdam exercitationem?"
+        }, {
+            title : "Title 3",
+            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, nisi perspiciatis aliquid reiciendis ea at illum doloribus ratione commodi eos ducimus iste eveniet, nihil error accusamus debitis odio quibusdam exercitationem?"
+        }, {
+            title : "Title 4",
+            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, nisi perspiciatis aliquid reiciendis ea at illum doloribus ratione commodi eos ducimus iste eveniet, nihil error accusamus debitis odio quibusdam exercitationem?"
+        }
+    ]
+    var json2 = [
+        {
+            title : "1",
+            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, nisi perspiciatis aliquid reiciendis ea at illum doloribus ratione commodi eos ducimus iste eveniet, nihil error accusamus debitis odio quibusdam exercitationem?"
+        },
+        {
+            title : " 2",
+            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, nisi perspiciatis aliquid reiciendis ea at illum doloribus ratione commodi eos ducimus iste eveniet, nihil error accusamus debitis odio quibusdam exercitationem?"
+        }
+    ]
+
+
+    json.forEach(data => {
+        let template = document.querySelector("#template");
+        let clone = template.content.cloneNode(true);
+        let title = clone.querySelector(".title");
+            title.innerHTML = data.title;
+        var container = document.querySelector(".container");
+            container.appendChild(clone);
+    });
+
+    $(".button").click(function(){
+
+        $(".container").empty();
+        json2.forEach(data => {
+            let template = document.querySelector("#template");
+            let clone = template.content.cloneNode(true);
+            let title = clone.querySelector(".title");
+                title.innerHTML = data.title;
+            var container = document.querySelector(".container");
+                container.appendChild(clone);
+        });
+    });
+    
+</script>
