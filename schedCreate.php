@@ -14,19 +14,24 @@
     }
 ?>
 
+<link rel="stylesheet" href="css/site.css">
 
-<h3>Add Schedule</h3>
+<div class="container">
+    <h3>Add Schedule</h3>
 
-<form action="" method="post">
-    <div>
-        <label for="date">Date of sched</label>
-        <input type="date" name= "date">
-    </div>    
+    <form action="" method="post">
+        <div>
+            <label for="date">Date of sched</label>
+            <br>
+            <input type="date" name= "date">
+        </div>    
 
-    <div>
-        <label for="description">what do you want to do</label>
-        <input type="text" name="description" placeholder="what you want to do">
-    </div>
-    <input type="submit" value="submit">
+        <div>
+            <label for="description">what do you want to do</label>
+            <br>
+            <input type="text" name="description" placeholder="what you want to do">
+        </div>
+        <input type="submit" value="submit">
 
-</form>
+    </form>
+</div>

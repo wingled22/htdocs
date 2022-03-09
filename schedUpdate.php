@@ -1,4 +1,4 @@
-<h3>update schedule</h3>
+
 
 <?php
     require "dbconnect.php";
@@ -28,16 +28,22 @@
 
 ?>
 
-<form action="" method="post">
-    <div>
-        <label for="date">Date of sched</label>
-        <input type="date" value="<?php echo $date;?>" name= "date">
-    </div>    
+<link rel="stylesheet" href="css/site.css">
 
-    <div>
-        <label for="description">what do you want to do</label>
-        <input type="text" name="description" value="<?php echo $desc;?>" placeholder="what you want to do">
-    </div>
-    <input type="submit" value="submit">
+<div class="container">
+    <h3>update schedule</h3>
 
-</form>
+    <form action="" method="post">
+        <div>
+            <label for="date">Date of sched</label>
+            <input type="date" value="<?php echo $date;?>" name= "date">
+        </div>    
+
+        <div>
+            <label for="description">what do you want to do</label>
+            <input type="text" name="description" value="<?php echo $desc;?>" placeholder="what you want to do">
+        </div>
+        <input type="submit" value="submit">
+
+    </form>
+</div>
