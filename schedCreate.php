@@ -8,7 +8,7 @@
         $res  = $conn->query($sql);
         
         if($res)
-            echo "Data saved";
+            header("Location: /index.php"); 
         else    
             echo "error happened";
     }

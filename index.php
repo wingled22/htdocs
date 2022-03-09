@@ -1,9 +1,9 @@
 <!-- 
     CRUD
-    create 
-    read
-    update
-    delete
+    [x]create 
+    []read
+    [x]update
+    []delete
 -->
 
 <h1>Schedule</h1>
@@ -40,7 +40,7 @@
             <td> 
                 <!-- <a href="">Details</a> -->
                 <a href="schedUpdate.php/?id=<?php echo $row->id ?>">Update</a>
-                <!-- <a href="">Delete</a> -->
+                <a href="schedDelete.php/?id=<?php echo $row->id ?>">Delete</a>
             </td>
         </tr>
         <?php

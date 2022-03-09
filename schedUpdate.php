@@ -2,13 +2,8 @@
 
 <?php
     require "dbconnect.php";
-
-    
-
-    $date;
-    $desc;
-
-
+    $date = null;
+    $desc = "";
     if($_GET){
         $sql = "Select * from schedule where id=".$_GET['id'];
         $res  = $conn->query($sql);
@@ -26,7 +21,7 @@
         $res  = $conn->query($sql);
 
         if($res)
-            echo "Data updated";
+            header("Location: /index.php"); 
         else    
             echo "error happened";
     }
