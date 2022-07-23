@@ -10,6 +10,7 @@
     
     <!-- jQuery CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     
     
 </head>
@@ -39,8 +40,8 @@
         <table class="table">
             <thead>
                 <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
                 </tr>
             </thead>
 
@@ -59,9 +60,10 @@
     </template>
     
     <script>
-       
-       function loadData(){
-            //get data from php file: GET method
+
+      
+        function loadData(){
+             //get data from php file: GET method
             $.ajax({
                 url : "categories.get.php"
             })
@@ -79,30 +81,34 @@
                     parent.append(clone);
                 });
             });
-       }
+        }
 
-       $(document).ready(function(){
-           loadData();
-            $("#btnCreateCategory").click(function(){
-                $.ajax({
-                    url: "categories.create.php",
-                    type: "GET",
-                    data:  {
-                        name : "HELLLLLLLLLLLPPPPPPPPPPPPPPPPPPPPPPPP"
-                    }
-                }).done(function(data){
-                    let result = JSON.parse(data);
-                    console.log(result);
-                    if(result.res == "success"){
-                        loadData();
-                    }else{
-                        alert("Something happened");
-                    }
-                });
+        loadData();
+
+   
+        $("#btnCreateCategory").click(function(){
+            $.ajax({
+                url  : "categories.create.php",
+                type : "GET",
+                data :  {
+                    name : "Another category"
+                }
+            })
+            .done(function(data){
+                let result = JSON.parse(data);
+
+                if(result.res == "success"){
+                    // alert("done saving data");
+                     loadData();
+                }else{
+                    alert("Error, Something happened");
+                }
             });
+        });
 
-       });
-
+ // $("h1").click(function(){
+        //     console.log("h1 was clicked");
+        // });
 
 
        

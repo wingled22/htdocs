@@ -8,5 +8,5 @@
     if($res){
         echo "{\"res\" : \"success\"}";
     }else{
-        echo "error";
+        echo "{\"res\" : \"error\"}";
     }
