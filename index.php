@@ -59,10 +59,8 @@
     </template>
     
     <script>
-       loadData();
        
        function loadData(){
-
             //get data from php file: GET method
             $.ajax({
                 url : "categories.get.php"
@@ -71,7 +69,8 @@
                 let result = JSON.parse(data);
 
                 var template = document.querySelector("#categoryRowTemplate");
-                var parent = document.querySelector("#tableBody")
+                var parent = document.querySelector("#tableBody");
+                parent.innerHTML = "";
 
                 result.forEach(item => {
                     let clone = template.content.cloneNode(true);
@@ -80,32 +79,33 @@
                     parent.append(clone);
                 });
             });
-
        }
 
-
-
-
-
-        $("#btnCreateCategory").click(function(){
-            
-            $.ajax({
-                url: "categories.create.php",
-                type: "GET",
-                dataType: "json",
-                data:  {
-                    name : "HELLLLLLLLLLLPPPPPPPPPPPPPPPPPPPPPPPP"
-                }
-            }).done(function(data){
-                let result = JSON.parse(data);
-                console.log(result);
-                if(result.res == "success"){
-                    loadData();
-                }else{
-                    alert("Something happened");
-                }
+       $(document).ready(function(){
+           loadData();
+            $("#btnCreateCategory").click(function(){
+                $.ajax({
+                    url: "categories.create.php",
+                    type: "GET",
+                    data:  {
+                        name : "HELLLLLLLLLLLPPPPPPPPPPPPPPPPPPPPPPPP"
+                    }
+                }).done(function(data){
+                    let result = JSON.parse(data);
+                    console.log(result);
+                    if(result.res == "success"){
+                        loadData();
+                    }else{
+                        alert("Something happened");
+                    }
+                });
             });
-        });
+
+       });
+
+
+
+       
     </script>
 
 
