@@ -32,16 +32,78 @@
         </div>
     </nav>
 
+    
+
     <div class="container">
         <h1>List of Categories</h1>
-        <button type="button" name="" id="btnCreateCategory" class="btn btn-primary btn-lg btn-block">
-            Create Category
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Launch demo modal
         </button>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Create Category
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="row g-3" id="newCategoryForm" name="blahblahblah">
+                        
+                        <div class="col-auto">
+                          <label for="categoryName" >Category</label>
+                          <input type="text" name="categoryName" class="form-control" id="categoryName" placeholder="Enter new category">
+                        </div>
+                       
+                      </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnSaveCategory">Save changes</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Upate Category
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="row g-3" id="newCategoryForm" name="blahblahblah">
+                        
+                        <div class="col-auto">
+                        <label for="categoryName" >Category</label>
+                        <input type="text" name="categoryName" class="form-control" id="categoryName" placeholder="Enter new category">
+                        </div>
+                    
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnSaveCategory">Save changes</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
 
@@ -56,6 +118,9 @@
         <tr>
             <td class="tdID">id </td>
             <td class="tdName">Name</td>
+            <td>
+                <button class="updateCategory">Edit</button> | <button>Delete</button>
+            </td>
         </tr>
     </template>
     
@@ -78,6 +143,9 @@
                     let clone = template.content.cloneNode(true);
                     clone.querySelector("tr td.tdID").innerHTML = item.id;
                     clone.querySelector("tr td.tdName").innerHTML = item.name;
+
+                    clone.querySelector("tr td .updateCategory").setAttribute("data-categoryid", item.id);
+
                     parent.append(clone);
                 });
             });
@@ -85,33 +153,62 @@
 
         loadData();
 
-   
-        $("#btnCreateCategory").click(function(){
+        $("#btnSaveCategory").click(function(){
+
+            var categoryName = document.querySelector("#categoryName").value;
+
+            if(categoryName.length > 0){
+                // send data to server
+                $.ajax({
+                    url  : "categories.create.php",
+                    type : "GET",
+                    data :  {
+                        name : categoryName
+                    }
+                })
+                .done(function(data){
+                    let result = JSON.parse(data);
+
+                    if(result.res == "success"){
+                        // alert("done saving data");
+                        loadData();
+
+                        //to hide modal
+                        $("#exampleModal").modal("toggle");
+                        //clear form
+                        document.querySelector("form").reset();
+
+                    }else{
+                        alert("Error, Something happened");
+                    }
+                });
+
+            }else{
+                alert("no data on the name");
+            }
+            
+        });
+
+
+        $("body").on("click", ".updateCategory", function(){
+            $("#updateModal").modal("toggle");
+
+            var catID = $(this).data('categoryid');
+            
+            // send data to server
             $.ajax({
-                url  : "categories.create.php",
+                url  : "categories.getById.php",
                 type : "GET",
                 data :  {
-                    name : "Another category"
+                    categoryId : catID
                 }
             })
             .done(function(data){
                 let result = JSON.parse(data);
-
-                if(result.res == "success"){
-                    // alert("done saving data");
-                     loadData();
-                }else{
-                    alert("Error, Something happened");
-                }
             });
+
         });
 
- // $("h1").click(function(){
-        //     console.log("h1 was clicked");
-        // });
-
-
-       
     </script>
 
 
