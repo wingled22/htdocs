@@ -4,7 +4,7 @@
     //create array
     $myArray = array();
 
-    $sql = "Select * from category where id= ". $_GET["categoryId"];
+    $sql = "Select * from category where id= ". $_GET["catId"];
     $res  = $conn->query($sql);
 
     while($row = $res->fetch_assoc()) {
