@@ -8,9 +8,7 @@
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
     
-    <!-- jQuery CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+    
     
     
 </head>
@@ -57,7 +55,7 @@
                         
                         <div class="col-auto">
                           <label for="categoryName" >Category</label>
-                          <input type="text" name="categoryNameUpdate" class="form-control" id="categoryNameUpdate" placeholder="Enter new category">
+                          <input type="text" name="categoryName" class="form-control" id="categoryName" placeholder="Enter new category">
                         </div>
 
                     </form>
@@ -71,7 +69,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
             <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -81,11 +79,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="row g-3" id="newCategoryForm" name="blahblahblah">
+                    <form class="row g-3" id="updateCategoryForm" >
                         
                         <div class="col-auto">
-                        <label for="categoryName" >Category</label>
-                        <input type="text" name="categoryName" class="form-control" id="categoryNameUpdate" placeholder="Enter new category">
+                            <input type="text" class="form-control" id="categoryNameUpdate" >
                         </div>
                     
                     </form>
@@ -124,6 +121,11 @@
         </tr>
     </template>
     
+
+    <!-- jQuery CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
     <script>
 
       
@@ -151,74 +153,88 @@
             });
         }
 
-        loadData();
+        $(document).ready(function(){
 
-        $("#btnSaveCategory").click(function(){
-            var categoryName = document.querySelector("#categoryName").value;
+            loadData();
 
-            if(categoryName.length > 0){
-                // send data to server
-                $.ajax({
-                    url  : "categories.create.php",
-                    type : "GET",
-                    data :  {
-                        name : categoryName
-                    }
-                })
-                .done(function(data){
-                    let result = JSON.parse(data);
+            $("#btnSaveCategory").click(function(){
+                var categoryName = document.querySelector("#categoryName").value;
 
-                    if(result.res == "success"){
-                        // alert("done saving data");
-                        loadData();
+                if(categoryName.length > 0){
+                    // send data to server
+                    $.ajax({
+                        url  : "categories.create.php",
+                        type : "GET",
+                        data :  {
+                            name : categoryName
+                        }
+                    })
+                    .done(function(data){
+                        let result = JSON.parse(data);
 
-                        //to hide modal
-                        $("#exampleModal").modal("toggle");
-                        
-                        //clear form
-                        document.querySelector("form").reset();
+                        if(result.res == "success"){
+                            // alert("done saving data");
+                            loadData();
 
-                    }else{
-                        alert("Error, Something happened");
-                    }
-                });
+                            //to hide modal
+                            $("#exampleModal").modal("toggle");
+                            
+                            //clear form
+                            document.querySelector("form").reset();
 
-            }else{
-                alert("no data on the name");
-            }
-        });
+                        }else{
+                            alert("Error, Something happened");
+                        }
+                    });
 
-
-        // $(".updateCategory").click(function(){
-        //     console.log("I was clicked");
-        // });
-
-        $("body").on("click",".updateCategory", function(){
-            $("#updateModal").modal("toggle");
-
-            var categoryID = $(this).data('cat-id');
-
-            //get data by Id
-            $.ajax({
-                url  : "categories.getById.php",
-                type : "GET",
-                data :  {
-                    catId : categoryID
+                }else{
+                    alert("no data on the name");
                 }
-            })
-            .done(function(data){
-
-                let result = JSON.parse(data);
-                console.log(result);
-                
-                document.querySelector('#categoryNameUpdate').value = result.name;
             });
 
 
-            //append the data to form
+            // $(".updateCategory").click(function(){
+            //     console.log("I was clicked");
+            // });
 
+            $("body").on("click",".updateCategory", function(){
+                $("#updateModal").modal("toggle");
+
+                var categoryID = $(this).data('cat-id');
+
+                var getCatPromise = new Promise(function(resolve, reject){
+                    //get data by Id
+                    $.ajax({
+                        url  : "categories.getById.php",
+                        type : "GET",
+                        data :  {
+                            catId : categoryID
+                        },
+                        success: function (data) {
+                            resolve(data)
+                        },
+                        error: function (data) {
+                            reject(data)
+                        }
+                    });
+                });
             
-        });
+                getCatPromise.then(function(data){
+
+                    let result = JSON.parse(data);
+                    console.log(result);
+                    $("#categoryNameUpdate").val(result.name);
+                })
+                .catch((err) => {
+                    console.table(err);
+                });
+
+                //append the data to form
+
+                
+            });
+
+        })
       
 
     </script>
